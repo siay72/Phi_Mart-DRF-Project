@@ -12,13 +12,6 @@ from product.permissions import IsReviewAuthorOrReadOnly
 from drf_yasg.utils import swagger_auto_schema
 
 class ProductViewSet(ModelViewSet):
-    """
-    API endpoint for managing products in the e-commerce store
-     - Allows authenticated admin to create, update, and delete products
-     - Allows users to browse and filter product
-     - Support searching by name, description, and category
-     - Support ordering by price and updated_at
-    """
 
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]

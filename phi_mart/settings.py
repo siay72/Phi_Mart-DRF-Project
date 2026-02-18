@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-#dm=l+q!(iz*k2w8ssqzj_@$9^x9f!8g&ej$o@ztanr07pq9r^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [".vercel.app", '127.0.0.1']
 AUTH_USER_MODEL = 'users.User'
@@ -46,17 +46,20 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'drf_yasg',
     'rest_framework',
+    "corsheaders",
     'djoser',
     'api',
     'product',
     'order',
     'users',
     "debug_toolbar",
+    'corsheaders',
     'django_filters',
     
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
@@ -66,7 +69,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'phi_mart.urls'
 
@@ -87,6 +92,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'phi_mart.wsgi.app'
 
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
+
 INTERNAL_IPS = [
     # ...
     "127.0.0.1",
@@ -105,13 +115,14 @@ INTERNAL_IPS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('dbname'),
-        'USER': config('user'),
-        'PASSWORD': config('password'),
-        'HOST': config('host'),
-        'PORT': config('port'),
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -182,8 +193,19 @@ cloudinary.config(
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+DEFAULT_FROM_EMAIL = 'siamho77225@gmail.com'
+# Email Configuration
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+SENDGRID_API_KEY = config("SENDGRID_API_KEY")
+SENDGRID_SANDBOX_MODE_IN_DEBUG = config(
+    "SENDGRID_SANDBOX_MODE_IN_DEBUG", default=False, cast=bool
+)
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 
 DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': 'activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': True,
     'SERIALIZERS': {
         'user_create': 'users.serializers.UserCreateSerializer',
         'current_user': 'users.serializers.UserSerializer',
