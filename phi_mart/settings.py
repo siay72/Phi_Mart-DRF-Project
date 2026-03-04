@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-#dm=l+q!(iz*k2w8ssqzj_@$9^x9f!8g&ej$o@ztanr07pq9r^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [".vercel.app", '127.0.0.1']
 AUTH_USER_MODEL = 'users.User'
@@ -94,7 +94,8 @@ WSGI_APPLICATION = 'phi_mart.wsgi.app'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "https://phimart-client-nine.vercel.app",
+    "https://phimart-client-nine.vercel.app/"
+    
 ]
 
 INTERNAL_IPS = [
