@@ -94,6 +94,7 @@ WSGI_APPLICATION = 'phi_mart.wsgi.app'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "https://phimart-client-nine.vercel.app",
 ]
 
 INTERNAL_IPS = [
@@ -204,7 +205,7 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 
 DJOSER = {
-    'EMAIL_FRONTEND_PROTOCOL': config('FRONTEND_POTOCOL'),
+    'EMAIL_FRONTEND_PROTOCOL': config('FRONTEND_PROTOCOL'),
     'EMAIL_FRONTEND_DOMAIN': config('FRONTEND_DOMAIN'),
     'EMAIL_FRONTEND_SITE_NAME': 'PhiMart',
     'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
